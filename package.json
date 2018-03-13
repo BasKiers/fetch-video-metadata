@@ -2,8 +2,9 @@
     "name": "fetch-video-metadata",
     "version": "1.0.0",
     "description": "Tool to fetch video metadata of video files",
-    "main": "index.js",
+    "main": "src/server.js",
     "scripts": {
+        "flow": "flow",
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "npm run getbinaries && nodemon ./src/server.js --exec babel-node",
         "getbinaries": "ffbinaries ffprobe --output=./bin",
@@ -30,8 +31,10 @@
         "babel-plugin-transform-async-generator-functions": "^6.24.1",
         "babel-plugin-transform-object-rest-spread": "^6.26.0",
         "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-preset-flow": "^6.23.0",
         "babel-preset-latest": "^6.24.1",
         "ffbinaries": "^1.0.8",
+        "flow-bin": "^0.67.1",
         "nodemon": "^1.17.1"
     }
 }

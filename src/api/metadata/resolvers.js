@@ -1,3 +1,4 @@
+// @flow
 import ffprobe from '../../lib/ffprobe';
 
 function getMetadata(url) {
@@ -40,7 +41,7 @@ function parseAudioMetadata(data) {
     }
 }
 
-function parseVideoMetadata(data) {
+function parseVideoMetadata(data: VideoStreamData) {
     if (!data) return null;
     // We could check whether the ffprobe data object describes a video file or a different media file like an .jpg and throw an error.
 
@@ -55,7 +56,7 @@ function parseVideoMetadata(data) {
 }
 
 function parseAVRational(rational) {
-    if (typeof rational !== 'string') return null;
+    if (typeof rational !== 'string' || !rational.indexOf('/')) return null;
 
     const [numerator, denominator] = rational.split('/');
     const result = parseInt(numerator) / parseInt(denominator);
@@ -66,7 +67,7 @@ function parseAVRational(rational) {
 
 export default {
     Query: {
-        metadata: (_, { url } ) => {
+        metadata: (_: mixed, { url }: { url: string }) => {
             return getMetadata(url)
                 .then(parseMetadata)
         }

@@ -1,9 +1,11 @@
+// @flow
 import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
 import { ApolloEngine } from 'apollo-engine';
 import { makeExecutableSchema } from 'graphql-tools';
 
+// $FlowFixMe
 import MetadataSchema from './api/metadata/Metadata.graphqls';
 import MetadataResolvers from './api/metadata/resolvers';
 
@@ -40,7 +42,7 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({
 app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 // Initialize engine with your API key
-if(!process.env.ENGINE_API_KEY){
+if (!process.env.ENGINE_API_KEY) {
     console.error(`[Error] Aborting! 
 Environment variable ENGINE_API_KEY not found! 
 Please add your apollo engine api key by running 'ENGINE_API_KEY="<APOLLO_ENGINE_API_KEY>" npm start'
