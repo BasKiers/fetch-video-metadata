@@ -1,0 +1,28 @@
+type Query {
+	metadata(url: String!): Metadata
+}
+
+type Metadata @cacheControl(maxAge: 60) {
+	bitRate: Int
+	duration: Int
+	video: [VideoMetadata]!
+	audio: [AudioMetadata]!
+}
+
+type AudioMetadata @cacheControl(maxAge: 60) {
+	bitRate: Int
+	channelLayout: String
+	channels: Int
+	sampleRate: Int
+}
+
+type VideoMetadata @cacheControl(maxAge: 60) {
+	bitRate: Int
+	frameRate: Int
+	resolution: Resolution
+}
+
+type Resolution @cacheControl(maxAge: 60) {
+	height: Int
+	width: Int
+}
