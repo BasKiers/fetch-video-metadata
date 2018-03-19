@@ -10,7 +10,7 @@ import MetadataSchema from './api/metadata/Metadata.graphqls';
 import MetadataResolvers from './api/metadata/resolvers';
 
 // The GraphQL schema typeDef. Schemas in the array are combined.
-const typeDefs: Array<string> = [(MetadataSchema: string)];
+const typeDefs: Array<string> = [((MetadataSchema: any): string)];
 
 // The resolvers. Resolver files in the array are combined.
 const resolvers = [MetadataResolvers]
