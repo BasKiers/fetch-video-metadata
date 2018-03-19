@@ -4,3 +4,4 @@ bin
 dist
 flow-coverage
 flow-typed
+coverage

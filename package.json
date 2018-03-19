@@ -5,10 +5,10 @@
     "main": "src/server.js",
     "scripts": {
         "flow": "flow",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "npm run getbinaries && nodemon ./src/server.js --exec babel-node",
+        "test": "npm run getbinaries ; jest",
+        "start": "npm run getbinaries; nodemon ./src/server.js --exec babel-node",
         "getbinaries": "ffbinaries ffprobe --output=./bin",
-        "build": "npm install && npm run getbinaries && babel src -d dist",
+        "build": "npm install && npm run getbinaries; babel src -d dist",
         "serve": "node dist/server.js"
     },
     "author": "Bas Kiers",
@@ -27,6 +27,7 @@
     "devDependencies": {
         "babel-cli": "^6.24.0",
         "babel-core": "^6.26.0",
+        "babel-jest": "^23.0.0-alpha.0",
         "babel-plugin-inline-import": "^2.0.6",
         "babel-plugin-transform-async-generator-functions": "^6.24.1",
         "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -35,6 +36,19 @@
         "babel-preset-latest": "^6.24.1",
         "ffbinaries": "^1.0.8",
         "flow-bin": "^0.67.1",
-        "nodemon": "^1.17.1"
+        "jest": "^22.4.2",
+        "nodemon": "^1.17.1",
+        "regenerator-runtime": "^0.11.1"
+    },
+    "jest": {
+        "testEnvironment": "node",
+        "testPathIgnorePatterns": [
+            "/node_modules/",
+            "./dist"
+        ],
+        "coverageReporters": [
+            "lcov",
+            "html"
+        ]
     }
 }

@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test metadata resolver Test data parse functions parseAudioMetadata Returns video metadata object on valid metadata input 1`] = `
+Object {
+  "bitRate": 160000,
+  "channelLayout": "stereo",
+  "channels": 2,
+  "sampleRate": 44100,
+}
+`;
+
+exports[`Test metadata resolver Test data parse functions parseMetadata Returns valid values for correct metadata 1`] = `
+Object {
+  "audio": Array [
+    Object {
+      "bitRate": 160000,
+      "channelLayout": "stereo",
+      "channels": 2,
+      "sampleRate": 44100,
+    },
+  ],
+  "bitRate": 1334445,
+  "duration": 90001,
+  "video": Array [
+    Object {
+      "bitRate": 1167864,
+      "frameRate": 25,
+      "resolution": Object {
+        "height": 720,
+        "width": 1280,
+      },
+    },
+  ],
+}
+`;
+
+exports[`Test metadata resolver Test data parse functions parseVideoMetadata Returns video metadata object on valid metadata input 1`] = `
+Object {
+  "bitRate": 1167864,
+  "frameRate": 25,
+  "resolution": Object {
+    "height": 720,
+    "width": 1280,
+  },
+}
+`;
+
+exports[`Test metadata resolver Test resolver responses Returns metadata on valid url 1`] = `
+Object {
+  "audio": Array [
+    Object {
+      "bitRate": 160000,
+      "channelLayout": "stereo",
+      "channels": 2,
+      "sampleRate": 44100,
+    },
+  ],
+  "bitRate": 1334445,
+  "duration": 90001,
+  "video": Array [
+    Object {
+      "bitRate": 1167864,
+      "frameRate": 25,
+      "resolution": Object {
+        "height": 720,
+        "width": 1280,
+      },
+    },
+  ],
+}
+`;
