@@ -46,6 +46,12 @@ export type FormatData = {
 	bit_rate: ?string
 }
 
+/**
+ * Calls the ffprobe binary to retrieve metadata of media files
+ * @param {String} filePath The path/url of the file to inspect
+ * @param {String[]} opts An array of option arguments to run the ffprobe binary with
+ * @returns {Promise.<ProbeResult>} result The metadata object retrieved by ffprobe
+ */
 export default function ffprobe(filePath: string, opts: string[] = []): Promise<ProbeResult> {
 	const params = [...opts, '-show_streams', '-show_format', '-show_error', '-print_format', 'json', filePath];
 
@@ -55,7 +61,7 @@ export default function ffprobe(filePath: string, opts: string[] = []): Promise<
 		const ffprobe = spawn(ffprobePath, params);
 
 		ffprobe.once('close', function (code: number) {
-			if (code > 1 || code === 1 && !info) {
+			if (code > 1 || (code === 1 && !info)) {
 				const err = (stderr || '').split('\n').filter(Boolean).pop();
 				return reject(new Error(err));
 			}

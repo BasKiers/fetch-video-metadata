@@ -2,6 +2,11 @@
 import type { ProbeResult, VideoStreamData, AudioStreamData } from '../../lib/ffprobe';
 import ffprobe  from '../../lib/ffprobe';
 
+/**
+ * Retreives metadata object from url/filepath
+ * @param {String} url An url or filepath to read the media file from
+ * @returns {Promise.<ProbeResult>} result the ffprobe metadata object
+ */
 function getMetadata(url) {
 	// We could check whether the url or file path is valid and preemptively return an error
 	return ffprobe(url);
@@ -32,6 +37,11 @@ export type AudioMetadata = {
 	sampleRate: number
 }
 
+/**
+ * Parses the ffprobe metadata object into the object served by the api endpoint
+ * @param {ProbeResult} metadata The metadata object retreived from rfprobe
+ * @returns {MediaMetadata | null} result The MediaMetadata object or null if given metadata did not contain relevant information
+ */
 export function parseMetadata({ format, streams }: ProbeResult): ?MediaMetadata {
 	const streamData = streams.reduce((result, stream) => {
 		if (stream.codec_type === 'video') {
@@ -60,6 +70,11 @@ export function parseMetadata({ format, streams }: ProbeResult): ?MediaMetadata 
 	};
 }
 
+/**
+ * Parses audio stream metadata from the ffprobe metadata object
+ * @param {AudioStreamData} data The audio stream metadata object
+ * @returns {AudioMetadata | null} result The AudioMetadata object or null if given metadata did not contain relevant information
+ */
 export function parseAudioMetadata(data: AudioStreamData): ?AudioMetadata {
 	if (
 		data.bit_rate === null || data.bit_rate === undefined ||
@@ -76,6 +91,11 @@ export function parseAudioMetadata(data: AudioStreamData): ?AudioMetadata {
 	}
 }
 
+/**
+ * Parses video stream metadata from the ffprobe metadata object
+ * @param {VideoStreamData} data The video stream metadata object
+ * @returns {VideoMetadata | null} result The VideoMetadata object or null if given metadata did not contain relevant information
+ */
 export function parseVideoMetadata(data: VideoStreamData): ?VideoMetadata {
 	if (
 		data.bit_rate === null || data.bit_rate === undefined ||
@@ -98,6 +118,12 @@ export function parseVideoMetadata(data: VideoStreamData): ?VideoMetadata {
 	}
 }
 
+/**
+ * Parses strings containing an AVRational number. This number is encoded in a string by two numbers delimited by a "/"
+ * The number parts represent the numerator and denominator ("{numerator}/{denominator}") e.g. "5/10" for the number 0.5
+ * @param {String} rational The AVRational number string to parse
+ * @returns {Number | null} result The parsed Number or null if an invalid AVRational string was given
+ */
 export function parseAVRational(rational: string): ?number {
 	if (typeof rational !== 'string' || (rational.match(/\//g) || []).length !== 1) return null;
 
