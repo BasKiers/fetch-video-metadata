@@ -18,23 +18,23 @@ export type ProbeResult = {
 
 export type VideoStreamData = {
     codec_type: 'video',
-    bit_rate: number,
-    r_frame_rate: string,
-    coded_width: number,
-    coded_height: number
+    bit_rate: ?number,
+    r_frame_rate: ?string,
+    coded_width: ?number,
+    coded_height: ?number
 }
 
 export type AudioStreamData = {
     codec_type: 'audio',
-    bit_rate: number,
-    channel_layout: string,
-    channels: number,
-    sample_rate: number
+    bit_rate: ?number,
+    channel_layout: ?string,
+    channels: ?number,
+    sample_rate: ?number
 }
 
 export type FormatData = {
-    duration: number,
-    bit_rate: number
+    duration: ?number,
+    bit_rate: ?number
 }
 
 export default function ffprobe(filePath: string, opts: string[] = []): Promise<ProbeResult> {
