@@ -1,12 +1,38 @@
 // @flow
-import ffprobe from '../../lib/ffprobe';
+import type { VideoStreamData, AudioStreamData } from '../../lib/ffprobe';
+import ffprobe  from '../../lib/ffprobe';
 
 function getMetadata(url) {
     // We could check whether the url or file path is valid and preemptively return an error
     return ffprobe(url);
 }
 
-function parseMetadata({ format = {}, streams = [] } = {}) {
+export type MediaMetadata = {
+    audio: Array<AudioMetadata>,
+    video: Array<VideoMetadata>,
+    bitRate: ?number,
+    duration: ?number,
+}
+
+export type VideoMetadata = {
+    bitRate: ?number,
+    frameRate: ?number,
+    resolution: Resolution,
+}
+
+export type Resolution = {
+    width: ?number,
+    height: ?number,
+}
+
+export type AudioMetadata = {
+    bitRate: ?number,
+    channelLayout: ?string,
+    channels: ?number,
+    sampleRate: ?number
+}
+
+function parseMetadata({ format = {}, streams = [] } = {}): MediaMetadata {
     const streamData = streams.reduce((result, stream) => {
         if (stream.codec_type === 'video') {
             const metadata = parseVideoMetadata(stream);
@@ -31,7 +57,7 @@ function parseMetadata({ format = {}, streams = [] } = {}) {
     };
 }
 
-function parseAudioMetadata(data) {
+function parseAudioMetadata(data: AudioStreamData): ?AudioMetadata {
     if (!data) return null;
     return {
         bitRate: data.bit_rate || null,
@@ -41,7 +67,7 @@ function parseAudioMetadata(data) {
     }
 }
 
-function parseVideoMetadata(data: VideoStreamData) {
+function parseVideoMetadata(data: VideoStreamData): ?VideoMetadata {
     if (!data) return null;
     // We could check whether the ffprobe data object describes a video file or a different media file like an .jpg and throw an error.
 
@@ -55,7 +81,7 @@ function parseVideoMetadata(data: VideoStreamData) {
     }
 }
 
-function parseAVRational(rational) {
+function parseAVRational(rational: string): ?number {
     if (typeof rational !== 'string' || !rational.indexOf('/')) return null;
 
     const [numerator, denominator] = rational.split('/');

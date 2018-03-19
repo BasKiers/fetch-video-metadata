@@ -12,12 +12,12 @@ import path from 'path';
 const ffprobePath = path.join(__dirname, '../../bin/ffprobe');
 
 export type ProbeResult = {
-    streams: (VideoStreamData | AudioStreamData)[],
+    streams: Array<VideoStreamData | AudioStreamData>,
     format: FormatData
 }
 
 export type VideoStreamData = {
-    codec_type: string,
+    codec_type: 'video',
     bit_rate: number,
     r_frame_rate: string,
     coded_width: number,
@@ -25,7 +25,7 @@ export type VideoStreamData = {
 }
 
 export type AudioStreamData = {
-    codec_type: string,
+    codec_type: 'audio',
     bit_rate: number,
     channel_layout: string,
     channels: number,
@@ -33,8 +33,8 @@ export type AudioStreamData = {
 }
 
 export type FormatData = {
-    duration: string,
-    bit_rate: string
+    duration: number,
+    bit_rate: number
 }
 
 export default function ffprobe(filePath: string, opts: string[] = []): Promise<ProbeResult> {
@@ -45,22 +45,21 @@ export default function ffprobe(filePath: string, opts: string[] = []): Promise<
         let stderr: string;
         const ffprobe = spawn(ffprobePath, params);
 
-        ffprobe.once('close', function (code) {
+        ffprobe.once('close', function (code: number) {
             if (!code) {
-                resolve(info);
-            } else {
                 const err = (stderr || '').split('\n').filter(Boolean).pop();
-                reject(new Error(err));
+                return reject(new Error(err));
             }
+            resolve(info);
         });
 
-        ffprobe.stderr.pipe(bl((err, data) => {
+        ffprobe.stderr.pipe(bl((err: Error, data: any) => {
             stderr = data.toString();
         }));
 
         ffprobe.stdout
             .pipe(JSONStream.parse())
-            .once('data', function (data) {
+            .once('data', function (data: ProbeResult) {
                 info = data;
             });
     });

@@ -10,7 +10,7 @@ import MetadataSchema from './api/metadata/Metadata.graphqls';
 import MetadataResolvers from './api/metadata/resolvers';
 
 // The GraphQL schema typeDef. Schemas in the array are combined.
-const typeDefs = [MetadataSchema];
+const typeDefs: Array<string> = [(MetadataSchema: string)];
 
 // The resolvers. Resolver files in the array are combined.
 const resolvers = [MetadataResolvers]
@@ -50,7 +50,7 @@ You can get an Apollo Engine Api key by creating an account here: https://engine
     process.abort();
 }
 
-const engine = new ApolloEngine({
+const engine: ApolloEngine = new ApolloEngine({
     apiKey: process.env.ENGINE_API_KEY
 });
 

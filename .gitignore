@@ -2,3 +2,5 @@
 node_modules
 bin
 dist
+flow-coverage
+flow-typed
