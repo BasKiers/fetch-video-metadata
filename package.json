@@ -5,7 +5,7 @@
     "main": "src/server.js",
     "scripts": {
         "flow": "flow",
-        "test": "npm run getbinaries ; jest",
+        "test": "jest",
         "start": "npm run getbinaries; nodemon ./src/server.js --exec babel-node",
         "getbinaries": "ffbinaries ffprobe --output=./bin",
         "build": "npm install && npm run getbinaries; babel src -d dist",
